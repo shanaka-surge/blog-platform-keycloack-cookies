@@ -1,0 +1,107 @@
+/*
+  Marginalia login theme.
+  Built on top of Keycloak's default "keycloak.v2" theme, which exposes its
+  colors, fonts and spacing as CSS custom properties (PatternFly design
+  tokens). Overriding the variables below restyles every login-flow page
+  (login, register, forgot password, OTP, etc.) without touching any .ftl
+  template, so new Keycloak versions mostly keep working unchanged.
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600&display=swap');
+
+:root {
+  /* Brand palette - keep in sync with frontend/src/styles.css */
+  --marg-paper: #f4f6f8;
+  --marg-surface: #ffffff;
+  --marg-ink: #17202b;
+  --marg-muted: #5b6675;
+  --marg-line: #d9dfe6;
+  --marg-accent: #2456c7;
+  --marg-accent-ink: #ffffff;
+
+  /* PatternFly tokens keycloak.v2 actually reads */
+  --pf-v5-global--BackgroundColor--100: var(--marg-paper);
+  --pf-v5-global--BackgroundColor--light-100: var(--marg-surface);
+  --pf-v5-global--Color--100: var(--marg-ink);
+  --pf-v5-global--Color--200: var(--marg-muted);
+  --pf-v5-global--primary-color--100: var(--marg-accent);
+  --pf-v5-global--primary-color--200: var(--marg-accent);
+  --pf-v5-global--link--Color: var(--marg-accent);
+  --pf-v5-global--BorderColor--100: var(--marg-line);
+  --pf-v5-global--FontFamily--sans-serif: "Public Sans", system-ui, sans-serif;
+}
+
+body {
+  background: var(--marg-paper) !important;
+}
+
+/* Card that holds the whole login form */
+#kc-container, .login-pf-page, .pf-v5-c-login {
+  font-family: "Public Sans", system-ui, sans-serif;
+}
+
+.pf-v5-c-login__main {
+  background: var(--marg-surface);
+  border: 1px solid var(--marg-line);
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+/* Keycloak's own header text, e.g. "Sign in to blog-realm" */
+#kc-header-wrapper {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 600;
+  color: var(--marg-ink);
+}
+
+/* Replace the default header with the app name via CSS content,
+   so no .ftl override is required */
+#kc-header-wrapper {
+  visibility: hidden;
+  position: relative;
+  height: 2.2rem;
+}
+#kc-header-wrapper::after {
+  content: "Marginalia";
+  visibility: visible;
+  position: absolute;
+  inset: 0;
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+/* Inputs */
+.pf-v5-c-form-control {
+  background: var(--marg-paper);
+  border: 1px solid var(--marg-line);
+  border-radius: 6px;
+  color: var(--marg-ink);
+}
+
+/* Primary button ("Sign In") */
+.pf-v5-c-button.pf-m-primary {
+  background: var(--marg-accent);
+  color: var(--marg-accent-ink);
+  border-radius: 6px;
+  font-weight: 600;
+}
+.pf-v5-c-button.pf-m-primary:hover {
+  background: color-mix(in srgb, var(--marg-accent) 85%, black);
+}
+
+/* Links: "Register", "Forgot password?" */
+#kc-registration a,
+#kc-info-wrapper a,
+.pf-v5-c-login__main-footer-links a {
+  color: var(--marg-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Social login provider buttons (Google/GitHub) */
+#kc-social-providers .pf-v5-c-button {
+  border: 1px solid var(--marg-line);
+  border-radius: 6px;
+  background: var(--marg-surface);
+  color: var(--marg-ink);
+}

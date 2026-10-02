@@ -1,0 +1,32 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/blogdb   # persists across restarts; use jdbc:h2:mem:blogdb for throwaway
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/blog-realm
+
+keycloak:
+  server-url: http://localhost:8080
+  realm: blog-realm
+  admin-client-id: blog-admin-service
+  admin-client-secret: admin-service-secret
+
+app:
+  cors-origin: http://localhost:5173
+  # false = only the author can edit/delete a blog. true = ADMIN can too.
+  admin-can-modify-blogs: false
+  # true once served over HTTPS - the ACCESS_TOKEN cookie then requires it
+  cookie-secure: false

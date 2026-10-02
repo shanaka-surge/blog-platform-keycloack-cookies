@@ -1,0 +1,64 @@
+{
+  "realm": "blog-realm",
+  "enabled": true,
+  "registrationAllowed": true,
+  "loginWithEmailAllowed": true,
+  "defaultRole": { "name": "default-roles-blog-realm" },
+  "roles": {
+    "realm": [
+      { "name": "USER" },
+      { "name": "ADMIN" },
+      {
+        "name": "default-roles-blog-realm",
+        "composite": true,
+        "composites": { "realm": ["offline_access", "uma_authorization", "USER"] }
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "blog-frontend",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": ["http://localhost:5173/*"],
+      "webOrigins": ["http://localhost:5173"],
+      "attributes": { "pkce.code.challenge.method": "S256" }
+    },
+    {
+      "clientId": "blog-admin-service",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "admin-service-secret",
+      "serviceAccountsEnabled": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false
+    }
+  ],
+  "users": [
+    {
+      "username": "service-account-blog-admin-service",
+      "enabled": true,
+      "serviceAccountClientId": "blog-admin-service",
+      "realmRoles": ["default-roles-blog-realm"],
+      "clientRoles": { "realm-management": ["manage-users", "view-users"] }
+    },
+    {
+      "username": "alice",
+      "email": "alice@example.com",
+      "emailVerified": true,
+      "enabled": true,
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["USER"]
+    },
+    {
+      "username": "boss",
+      "email": "boss@example.com",
+      "emailVerified": true,
+      "enabled": true,
+      "credentials": [{ "type": "password", "value": "password", "temporary": false }],
+      "realmRoles": ["USER", "ADMIN"]
+    }
+  ]
+}
